@@ -1,5 +1,6 @@
-I added composer.json file so that adding the package using composer becomes trivial 
-==
+### I added composer.json file so that adding the package using composer becomes trivial 
+
+-------------------------------
 
 Gorilla PHPMake\SerialPort
 ==========================
