@@ -1,3 +1,6 @@
+I added composer.json file so that adding the package using composer becomes trivial 
+==
+
 Gorilla PHPMake\SerialPort
 ==========================
 The PHP extension for communicate other device via serial-port(COM).  
