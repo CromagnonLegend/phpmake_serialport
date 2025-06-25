@@ -2,16 +2,30 @@
   "name": "cromagnonlegend/phpmake_serialport",
   "description": "Serial port PHP extension (Gorilla)",
   "version": "0.5.0",
-  "autoload": { "classmap": ["Gorilla.c"] },
-"authors": [
-        {
-            "name": "kahagon (Kenichi Ahagon)",
-            "homepage": "https://github.com/kahagon",
-            "role": "Creator"
-        },
-        {
-            "name": "CromagnonLegend",
-            "role": "Contributor"
-        }
+  "type": "extension",
+  "require": {
+    "php": ">=7.4"
+  },
+  "autoload": {
+    "classmap": ["Gorilla.c"]
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "@bash install.sh"
+    ],
+    "post-update-cmd": [
+      "@bash install.sh"
     ]
+  },
+  "authors": [
+    {
+      "name": "kahagon (Kenichi Ahagon)",
+      "homepage": "https://github.com/kahagon",
+      "role": "Creator"
+    },
+    {
+      "name": "CromagnonLegend",
+      "role": "Contributor"
+    }
+  ]
 }
