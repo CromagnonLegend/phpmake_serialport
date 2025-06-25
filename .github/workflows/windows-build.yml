@@ -1,22 +1,29 @@
 on:
   release:
-    types: [created]
-
+    types:
+      - created
 jobs:
   build-windows-extension:
     name: Build & Publish PHP Gorilla Extension on Windows
     runs-on: windows-latest
     strategy:
       matrix:
-        php-version: ["7.4", "8.0", "8.1", "8.2"]
-        ts: ["nts", "ts"]
-        arch: ["x64", "x86"]
+        php-version:
+          - "7.4"
+          - "8.0"
+          - "8.1"
+          - "8.2"
+        ts:
+          - nts
+          - ts
+        arch:
+          - x64
+          - x86
     env:
-      EXTENSION_URL: "https://github.com/CromagnonLegend/phpmake_serialport"
+      EXTENSION_URL: https://github.com/CromagnonLegend/phpmake_serialport
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
-
       - name: Build PHP extension
         uses: php/php-windows-builder/extension@v1
         with:
@@ -26,21 +33,18 @@ jobs:
           ts: ${{ matrix.ts }}
           arch: ${{ matrix.arch }}
           args: --enable-Gorilla
-
       - name: Locate built DLL
         id: locate
-        run: |
-          # PHP-Windows-Builder puts builds under tool_cache
-          $base = "${{ runner.tool_cache }}\windows\php\${{ matrix.php-version }}\${{ matrix.arch }}\${{ matrix.ts }}\Release"
-          echo "EXT_DIR=$base" >> $GITHUB_ENV
-          dir $base
-
+        run: >
+          $base = "${{ runner.tool_cache }}\windows\php\${{ matrix.php-version }}\${{
+          matrix.arch }}\${{ matrix.ts }}\Release" echo "EXT_DIR=$base" >>
+          $GITHUB_ENV dir $base
       - name: Package DLL
-        run: |
-          $zipName = "Gorilla-${{ matrix.php-version }}-${{ matrix.ts }}-${{ matrix.arch }}.zip"
-          Compress-Archive -Path "${{ env.EXT_DIR }}\php_Gorilla.dll" -DestinationPath $zipName
-          echo "ZIP=$zipName" >> $GITHUB_ENV
-
+        run: >
+          $zipName = "Gorilla-${{ matrix.php-version }}-${{ matrix.ts }}-${{
+          matrix.arch }}.zip" Compress-Archive -Path "${{ env.EXT_DIR
+          }}\php_Gorilla.dll" -DestinationPath $zipName echo "ZIP=$zipName" >>
+          $GITHUB_ENV
       - name: Upload to GitHub Release
         uses: actions/upload-release-asset@v1
         with:
@@ -48,5 +52,3 @@ jobs:
           asset_path: ${{ env.ZIP }}
           asset_name: ${{ env.ZIP }}
           asset_content_type: application/zip
-      asset_content_type: application/zip
-```
