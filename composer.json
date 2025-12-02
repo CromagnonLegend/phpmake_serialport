@@ -1,25 +1,47 @@
 {
   "name": "cromagnonlegend/phpmake_serialport",
-  "description": "Serial port PHP extension (Gorilla)",
+  "description": "Serial port PHP extension (Gorilla) - A PHP extension for communicating with serial-port devices (e.g. Arduino, AVR, PIC) on POSIX systems and Windows",
   "version": "0.6.0",
-  "type": "extension",
+  "type": "library",
+  "license": "PHP-3.01",
+  "keywords": ["serial", "port", "arduino", "com", "usb", "tty", "hardware", "microcontroller"],
   "require": {
+    "php": ">=7.4",
+    "ext-json": "*"
+  },
+  "require-dev": {
     "php": ">=7.4"
   },
   "autoload": {
-    "classmap": ["Gorilla.c"]
+    "files": ["src/bootstrap.php"],
+    "psr-4": {
+      "PHPMake\\SerialPort\\": "src/"
+    }
   },
   "scripts": {
     "post-install-cmd": [
-      "@bash install.sh"
+      "@php -r \"echo '\\n\\033[33m⚠ IMPORTANT: This package requires a compiled C extension.\\033[0m\\n';\"",
+      "@php -r \"echo '\\033[33mPlease run: bash install.sh\\033[0m\\n';\"",
+      "@php -r \"echo '\\033[33mOr see README.md for manual installation instructions.\\033[0m\\n\\n';\""
     ],
     "post-update-cmd": [
+      "@php -r \"echo '\\n\\033[33m⚠ Extension may need recompilation after update.\\033[0m\\n';\"",
+      "@php -r \"echo '\\033[33mRun: bash install.sh if needed\\033[0m\\n\\n';\""
+    ],
+    "check-extension": [
+      "@php -r \"if (!extension_loaded('Gorilla')) { echo '\\033[31m✗ Gorilla extension is NOT loaded\\033[0m\\n'; exit(1); } echo '\\033[32m✓ Gorilla extension is loaded\\033[0m\\n';\""
+    ],
+    "install-extension": [
       "@bash install.sh"
     ]
   },
+  "suggest": {
+    "ext-Gorilla": "Required for serial port communication. Run 'composer run install-extension' to compile and install."
+  },
   "authors": [
     {
-      "name": "kahagon (Kenichi Ahagon)",
+      "name": "Kenichi Ahagon",
+      "email": "k.ahagon@n-3.so",
       "homepage": "https://github.com/kahagon",
       "role": "Creator"
     },
@@ -27,5 +49,8 @@
       "name": "CromagnonLegend",
       "role": "Contributor"
     }
-  ]
+  ],
+  "support": {
+    "source": "https://github.com/cromagnonlegend/phpmake_serialport"
+  }
 }
